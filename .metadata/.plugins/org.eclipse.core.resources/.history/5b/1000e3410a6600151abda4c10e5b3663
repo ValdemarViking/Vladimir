@@ -1,0 +1,56 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		double one = 0;
+		double two = 0;
+		String toDo = null;
+		
+		System.out.println("Введите число 1");
+		try {
+		one = sc.nextDouble();}
+		catch (Exception e){
+			System.out.println("Недопустимое значение, попробуйте еще раз))");
+			return; 
+		}
+		System.out.println("Введите число 2");
+		try {
+		two = sc.nextDouble();}
+		catch (Exception e){
+			System.out.println("Недопустимое значение, попробуйте еще раз))");
+			return; }
+		sc.nextLine(); 
+		System.out.print("Желаемое действие (сложить, вычесть, умножить, делить): ");
+			try {
+				
+				toDo = sc.nextLine(); }
+			catch (Exception e1){
+					System.out.println("Недопустимое значение, попробуйте еще раз))");
+					return; }
+				
+		switch (toDo){
+		case "+":
+			System.out.println("Ответ: " + (one+two));
+			break;
+		case "-":
+			System.out.println("Ответ: " + (one-two));
+			break;
+		case "*":
+			System.out.println("Ответ: " + (one*two));
+			break;	
+		case "/":
+			if (two == 0)
+				System.out.println("Нельзя делить на ноль");	
+			else
+			System.out.println("Ответ: " + (one/two));	
+			break;	
+			default:
+			System.out.println("Недопустимое значение");	
+		}
+						
+	}
+	
+}
