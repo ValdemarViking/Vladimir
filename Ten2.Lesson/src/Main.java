@@ -24,8 +24,8 @@ public class Main {
 				
 				inputStream = connection.getInputStream();
 				
-				File file = new File("ttt.xml");
-				fileOutPutStream = new FileOutputStream(file);
+				File fil = new File("ttt.xml");
+				fileOutPutStream = new FileOutputStream(fil);
 				
 				int byteRead = -1;
 				byte[] bufer = new byte[4096];

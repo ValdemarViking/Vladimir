@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;file&apos; in &apos;Main.main(...)&apos; to &apos;fil&apos;&#x0D;&#x0A;- Original project: &apos;Ten2.Lesson&apos;&#x0D;&#x0A;- Original element: &apos;Main.main(String[]).file&apos;&#x0D;&#x0A;- Renamed element: &apos;file&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;file&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{Main.java[Main~main~\[QString;@file!669!700!674!677!QFile;!0!false" name="fil" references="true" stamp="1444068209520" version="1.0"/>
+</session>
