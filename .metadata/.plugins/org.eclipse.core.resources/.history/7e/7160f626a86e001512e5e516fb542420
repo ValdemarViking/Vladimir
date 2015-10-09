@@ -1,0 +1,56 @@
+import java.io.FileReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		parseJson();
+	}
+
+	public static void parseJson() {
+		
+		JSONParser parser = new JSONParser();
+		try {
+			JSONObject root = (JSONObject) parser.parse(new FileReader("test.json"));
+			
+			String name = (String) root.get("name");
+	//		System.out.println(name);
+			
+			JSONArray people = (JSONArray) root.get("people");
+		//	System.out.println(people);
+			
+		// List<String> list = new ArrayList();
+		for(int i=0; i<people.size(); i++ ) {
+			JSONObject item = (JSONObject) people.get(i);
+			
+			
+			long peopleId =  (long)item.get("id");
+		    boolean peopleIsDegree = (boolean) item.get("isDegree");
+			long peopleAge = (long) item.get("age");
+			String peopleName = (String) item.get("name");
+			String peopleSurname = (String) item.get("surname");
+			
+			//list.get(i); */
+			System.out.println(peopleId);
+			System.out.println(peopleIsDegree);
+			
+		}
+		
+			
+		} catch (Exception e){
+			
+		}
+		
+		
+	}
+	
+}

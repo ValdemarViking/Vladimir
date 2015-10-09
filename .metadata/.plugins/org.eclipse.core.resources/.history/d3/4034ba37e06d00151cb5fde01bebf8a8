@@ -1,0 +1,257 @@
+/**
+ * 
+ */
+package by.pvt.main;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+/**
+ * @author User
+ *
+ */
+public class Manager {
+	/**
+	* Creates and print int array. n=2 : array={0,0};
+	*/
+	public int[] creatIntArray(int n) {
+		int[] a = new int[n];
+		System.out.println("Created array:");
+		printArray(a);
+		return a;
+	}
+	/**
+	 * set random elements in choosen array
+	 * 
+	 * @param a - array to set random values
+	 */
+	public void setRandomElements(int a[]) {
+		for (int i = 0; i < a.length; i++) {
+			a[i] = (int) (Math.random() * 100);
+		}
+		System.out.println("Random array:");
+		printArray(a);
+	}
+
+	/**
+	 * let you enter values for array using keyboard
+	 * @param a - choosen array
+	 */
+	public void enterElementsFKeyBoard(int a[]) {
+		int n = a.length;
+		System.out.println("Please, enter " + n + " elements one by one (1 2 3 ...)");
+		Scanner sc = new Scanner(System.in);
+		for (int i = 0; i < n; i++) {
+			try {
+				a[i] = sc.nextInt();
+				System.out.println("a[" + i + "]=" + a[i]);
+			} catch (InputMismatchException e) {
+				System.out.println("Error!\n Please, try again");
+				this.enterElementsFKeyBoard(a);
+			}
+		}
+		printArray(a);
+	}
+
+	/**
+	 * Print Minimum Average and Max value from choose array
+	 * @param a - choosen array
+	 */
+	public void getMinMaxAvr(int[] a) {
+		if (a.length != 0) {
+			int min = a[0];
+			int max = a[0];
+			int avr = a[0];
+			int avrSum;
+			int delta;
+			int sum = 0;
+			for (int i = 0; i < a.length; i++)
+				sum += a[i];
+
+			avrSum = sum / a.length;
+			delta = Math.abs(avr - avrSum);
+			for (int i = 0; i < a.length; i++) {
+				if (min > a[i])
+					min = a[i];
+				if (max < a[i])
+					max = a[i];
+				if (Math.abs(a[i] - avrSum) < delta) {
+					delta = Math.abs(a[i] - avrSum);
+					avr = a[i];
+				}
+
+			}
+			printArray(a);
+			System.out.println("min=" + min);
+			System.out.println("avr=" + avr);
+			System.out.println("max=" + max);
+		} else {
+			System.out.println("Length of choosen array is 0");
+		}
+
+	}
+
+	/**
+	 * print all values XXn( n=2: 11,20,...,99) from array
+	 * @param a - choosen array
+	 */
+	public void getXXvalues(int[] a, int n) {
+		if (a.length == 0) {
+			System.out.println("Length of choosen array is 0");
+			return;
+		}
+		printArray(a);
+		System.out.println("XXn values");
+		int k1=(int) Math.pow(10, n);
+		int k2=(int)Math.pow(10, n-1);
+		for (int i = 0; i < a.length; i++) {
+			if (((a[i]/k1)==0)&&((a[i]/k2)!=0)){
+				System.out.println(a[i]);
+			}
+		}
+	}
+
+	/**
+	 * return FIRST array value like 123, 234, 158 (not 112, 133 and etc)
+	 * @param a - choosen array
+	 */
+	public void get12345values(int[] a) {
+		if (a.length == 0) {
+			System.out.println("Length of choosen array is 0");
+			return;
+		}
+		System.out.println("12345 values :");
+		printArray(a);
+		for (int i = 0; i < a.length; i++) {
+			String s = Integer.toString(a[i]);
+			char[] number = s.toCharArray();
+			boolean check = false;
+			for (int j = 1; j < number.length; j++) {
+				if (number[j - 1] < number[j])
+					check = true;
+				else {
+					check = false;
+					break;
+				}
+			}
+			if (check) {
+				System.out.println(s);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Just print choosen array
+	 * @param a
+	 */
+	private void printArray(int[] a) {
+		if (a.length == 0) {
+			System.out.println("Length of choosen array is 0");
+			return;
+		}
+		System.out.println("Array:");
+		for (int i = 0; i < a.length; i++)
+			System.out.print("a[" + i + "]=" + a[i] + "  ");
+		System.out.println();
+	}
+
+	/**
+	 * My Sorting an array
+	 * @param a
+	 */
+	public void mySort(int[] a) {
+		boolean check = false;
+		while (!check) {
+			for (int i = 0; i < a.length - 1; i++) {
+				if (a[i] < a[i + 1]) {
+					int t = a[i];
+					a[i] = a[i + 1];
+					a[i + 1] = t;
+					check = true;
+				}
+			}
+			if (check)
+				check = false;
+			else
+				check = true;
+
+		}
+		printArray(a);
+	}
+
+	/**
+	 * Prints triangle matrix of choosen size
+	 * @param n - size
+	 */
+	public void createTreangleMatrix(int n) {
+		int m[][] = new int[n][];
+		int size = 1;
+		for (int i = 0; i < n; i++) {
+			m[i] = new int[size];
+			Arrays.fill(m[i], 1);
+			size++;
+		}
+		System.out.println("Triangle matrix: n=" + n);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m[i].length; j++) {
+				System.out.print(m[i][j]);
+
+			}
+			System.out.println();
+		}
+	}
+
+	/**
+	 * creates matrix from TASK9 
+	 * 111
+	 * 010
+	 * 111 - example
+	 * @param n - size
+	 */
+	public void create10Matrix(int n) {
+		int m[][] = new int[n][n];
+		int a = 0, b = n, c = n / 2;
+		c++;
+		for (int i = 0; i < c; i++) {
+			Arrays.fill(m[i], a, b, 1);
+			Arrays.fill(m[n - i - 1], a, b, 1);
+			a++;
+			b--;
+		}
+		System.out.println("10Matrix n=" + n);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m[i].length; j++) {
+				System.out.print(m[i][j]);
+
+			}
+			System.out.println();
+		}
+	}
+
+	/**
+	 * print transporated matrix on 90 degrees turn left
+	 * 123		369
+	 * 456	-> 	258
+	 * 789		147
+	 * @param a-choosen array
+	 */
+	public void transporateMatrix(int[][] a) {
+		int m[][] = new int[a[0].length][a.length];
+		for (int i = 0; i < a.length; i++) {
+			for (int j = a[i].length - 1, k = 0; j >= 0; j--, k++) {
+				m[j][i] = a[i][k];
+			}
+		}
+		System.out.println("Transporent =");
+		for (int i = 0; i < m.length; i++) {
+			for (int j = 0; j < m[i].length; j++) {
+				System.out.print(m[i][j]);
+
+			}
+			System.out.println();
+		}
+	}
+}
