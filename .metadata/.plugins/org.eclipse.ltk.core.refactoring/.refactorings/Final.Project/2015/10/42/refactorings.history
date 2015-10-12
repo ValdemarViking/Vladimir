@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;people&apos; in &apos;Main.parseJson()&apos; to &apos;employees&apos;&#x0D;&#x0A;- Original project: &apos;Final.Project&apos;&#x0D;&#x0A;- Original element: &apos;Main.parseJson().people&apos;&#x0D;&#x0A;- Renamed element: &apos;people&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;people&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;{Main.java[Main~parseJson@people!576!628!586!591!QJSONArray;!0!false" name="employees" references="true" stamp="1444671693148" version="1.0"/>
+</session>

@@ -1,0 +1,26 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+
+		Thread t = new Thread(new Runnable() {
+			public  void run() {
+				System.out.println("новый поток");
+			}
+			
+		});
+		
+		Thread t2 = new Thread(new Runnable() {
+			public  void run() {
+				System.out.println("новый поток 2");
+			}
+			
+		});
+		t.start();
+		t2.start();
+		System.out.println("главный поток!!!");
+		
+	}
+
+}
