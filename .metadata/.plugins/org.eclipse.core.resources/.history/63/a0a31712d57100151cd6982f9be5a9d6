@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package by.pvt.main;
+
+/**
+ * @author USER
+ *
+ */
+public class PracticeRunner {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

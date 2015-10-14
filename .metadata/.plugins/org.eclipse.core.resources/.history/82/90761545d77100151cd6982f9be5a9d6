@@ -1,0 +1,34 @@
+/**
+ * 
+ */
+package by.pvt.main;
+
+/**
+ * @author USER
+ *
+ */
+public class PracticeRunner {
+
+	/**
+	 * @param args
+	 */
+	public static void invertation(String s){
+		char[] str = s.toCharArray();
+		int n = s.length();
+		int m = s.length()/2;
+		n--;
+		for(int i=0; i<m; i++){
+			char t = str[i];
+			str[i]=str[n-i];
+			str[n-i]=t;
+		}
+		s = String.valueOf(str);
+		System.out.println(s);
+	}
+	public static void main(String[] args) {
+		String s = "qwe123asd";
+		invertation(s);
+		
+	}
+
+}
