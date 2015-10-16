@@ -1,0 +1,14 @@
+
+public final class Test {
+
+	private String privateField;
+	public String publicField;
+	
+	private void privateMethod(){
+		
+	}
+	public void publicMethod(){
+		System.out.println("publicMethod");
+	}
+	
+}

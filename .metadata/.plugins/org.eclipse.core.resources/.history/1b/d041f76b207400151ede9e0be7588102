@@ -1,0 +1,21 @@
+
+public class Main {
+	
+	public volatile String string;
+
+	public static void main(String[] args) {
+		Test test = new Test();
+	//	Class testClass = test.getClass();
+		Class testClass;
+		try {
+			testClass = Class.forName("Test");
+			System.out.println(testClass.getName());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+
+}

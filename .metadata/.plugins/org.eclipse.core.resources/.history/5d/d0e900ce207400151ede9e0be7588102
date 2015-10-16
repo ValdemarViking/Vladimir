@@ -1,0 +1,29 @@
+import java.lang.reflect.Modifier;
+
+
+public final class Main {
+	
+	public volatile String string;
+
+	public static void main(String[] args) {
+		Test test = new Test();
+		Class testClass = test.getClass();
+		System.out.println(testClass.getName());
+		
+		int mod = testClass.getModifiers();
+		
+		if (Modifier.isPublic(mod)) {
+			System.out.println("Class public");
+		} else {
+			System.out.println("Class unpublic");
+		}
+		if (Modifier.isFinal(mod)) {
+			System.out.println("Class Final");
+		} else {
+			System.out.println("Class unfinal");
+		}
+		
+
+	}
+
+}

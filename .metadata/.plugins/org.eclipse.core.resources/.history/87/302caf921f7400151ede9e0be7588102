@@ -1,0 +1,13 @@
+
+public class Main {
+	
+	public volatile String string;
+
+	public static void main(String[] args) {
+		Test test = new Test();
+		Class testClass = test.getClass();
+		System.out.println(testClass.getSimpleName());
+
+	}
+
+}
