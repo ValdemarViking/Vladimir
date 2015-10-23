@@ -1,0 +1,38 @@
+/**
+ * 
+ */
+package by.pvt.StonesRunner;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+/**
+ * @author User
+ * @version 1.0
+ */
+public final class Runner {
+
+	private Runner() {
+		super();
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args) {
+		try {
+			Starter.startProgram();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("File no found");
+			System.exit(0);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("IOE exception cought");
+			System.exit(0);
+		}
+
+	}
+
+}

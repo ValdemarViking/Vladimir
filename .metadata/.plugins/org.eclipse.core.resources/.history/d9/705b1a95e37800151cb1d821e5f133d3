@@ -1,0 +1,253 @@
+/**
+ * 
+ */
+package by.pvt.StonesRunner;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Scanner;
+
+import by.pvt.beans.Customer;
+import by.pvt.beans.Gem;
+import by.pvt.beans.Necklace;
+import by.pvt.beans.Semiprecious;
+import by.pvt.beans.Stone;
+import by.pvt.enums.Rarity;
+import by.pvt.enums.Strength;
+import by.pvt.enums.Valuation;
+import by.pvt.exceptions.CustomerException;
+import by.pvt.exceptions.StoneException;
+
+/**
+ * @author User
+ *
+ */
+public class Starter {
+	private static List<Stone> stones ;
+	private static List<Customer> customers;
+	private static Necklace necklace;
+	private static boolean initialized = false;
+	private static boolean reported = false;
+
+	private Starter() {
+		super();
+		
+	}
+
+	public static void startProgram() throws IOException {
+		try (Scanner sc = new Scanner(System.in)) {
+			System.out.println("Выберите пункт меню");
+			System.out.println("1.Проинициализировать обьекты");
+			System.out
+					.println("2.Провести операции над обьектами и вывести отчет в Result.txt");
+			System.out.println("3.Выход");
+
+			int choose = sc.nextInt();
+			switch (choose) {
+			case 1:
+				if (initialized != false)
+					System.out
+							.println("!!!Вы уже инициализировали обьекты. Распечатайте их");
+				else
+					initObjects();
+				startProgram();
+				break;
+			case 2:
+
+				if (reported == true) {
+					System.out
+							.println("!!Вы уже сделали операции и отчет, проверьте файл Result.txt");
+				} else if (initialized != false) {
+					doStuff();
+				} else {
+					System.out
+							.println("!!!Для начала проинициилизируйте обьекты");
+				}
+
+				startProgram();
+				break;
+			case 3:
+				System.exit(1);
+				break;
+			default:
+				System.out.println("Такого пункта меню нет, повторите ввод");
+				startProgram();
+				break;
+			}
+		}
+	}
+
+	private static String printStones(List<Stone> stones) {
+		StringBuffer s = new StringBuffer();
+		for (Stone st : stones)
+			s.append(st).append("\n");
+		return s.toString();
+	}
+
+	private static void doStuff() throws IOException {
+
+		StringBuffer report = new StringBuffer(1000);
+		final GregorianCalendar myCalendar = new GregorianCalendar();
+		myCalendar.getInstance();
+		report.append("Date: " + myCalendar.get(GregorianCalendar.DATE));
+		report.append("Hour: " + myCalendar.get(GregorianCalendar.HOUR));
+		report.append("Minute: " + myCalendar.get(GregorianCalendar.MINUTE));
+
+		report.append("Ожерелье для продажи:\n\n");
+		report.append('\n');
+		report.append(necklace.toString());
+		report.append('\n');
+		report.append("Камни ожерелья, отсортированные по Ценности (WORTH < EXSP < VERY_EXSP)\n");
+		report.append('\n');
+		report.append(printStones(necklace.getSortedByValuationStones()));
+		report.append('\n');
+		report.append("\nСписок камней в ожерелье, соответствующих диапозону цен 500-1000\n");
+		report.append('\n');
+		report.append(printStones(necklace.getStonesByPrice(500, 1000)));
+		report.append('\n');
+		report.append("\nКоличество созданных обьектов класса Necklace:\n");
+		report.append(Necklace.getCounter());
+		report.append("\nКоличество созданных обьектов класса Stone:\n");
+		report.append(Stone.getCounter());
+		report.append('\n');
+		for (final Customer c : customers) {
+			if (c.makePurchase(necklace)) {
+				report.append(c + " совершил покупку ожерелья.");
+				report.append('\n');
+			} else {
+				report.append(c + " у клиента недостаточно денег");
+				report.append('\n');
+			}
+		}
+		report.append("\n\nСериализуем Ожерелье в файл Serialize\n");
+		final File file = new File("Serialize");
+		ObjectOutputStream out_ser = null;
+		out_ser = new ObjectOutputStream(new BufferedOutputStream(
+				new FileOutputStream(file)));
+		out_ser.writeObject(necklace);
+		out_ser.flush();
+		out_ser.close();
+
+		report.append("Считываем из файла сериализованный обьект Ожерелье\n");
+		report.append("Transient полe - weight равно значению по умолчанию\n");
+		report.append("Поля - обьекты Serializable отлично сериализовываются, иерархия камней серализована\n");
+
+		Object read = null;
+		try (ObjectInputStream in = new ObjectInputStream(
+				new BufferedInputStream(new FileInputStream(file)))) {
+			read = in.readObject();
+		} catch (ClassNotFoundException e) {
+			report.append("Класс не найден! Ошибка серриализации\n");
+		}
+		report.append("Сериализованный обьект:\n" + read);
+
+		report.append("Вызов имплементированного метода Roll для камней: \n");
+		ListIterator it = stones.listIterator();
+		while (it.hasNext()) {
+			Stone st = (Stone) it.next();
+			report.append(st.roll() + "\n");
+		}
+		Writer out = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream("Result.txt"), "UTF-8"));
+		out.write(report.toString());
+		out.close();
+		reported = true;
+	}
+
+	private static void initObjects() throws IOException {
+
+		try {
+			createStones();
+			createCustomers();
+			createNecklace();
+			initialized = true;
+		} catch (FileNotFoundException e) {
+			System.out.println("!!! Не удалось найти файлы!Проверьте файлы Stones.txt и Customers.txt");
+			startProgram();
+		}
+	}
+
+	private static void createNecklace() {
+		System.out.println();
+		System.out.println();
+		System.out.println("Создаем ожерелье используя камни Stones.txt");
+		necklace = new Necklace(stones);
+		System.out.println("Ожерелье создано " + necklace);
+	}
+
+	private static void createCustomers() throws FileNotFoundException {
+
+		final Scanner sc = new Scanner(new File("Customers.txt"));
+		customers = new ArrayList<Customer>();
+		System.out.println();
+		System.out.println();
+		System.out.println("Считываем покупателей из файла Customers.txt");
+		while (sc.hasNext()) {
+			String name = sc.next();
+			String surname = sc.next();
+			double cash = sc.nextDouble();
+			try {
+				customers.add(new Customer(name, surname, cash));
+				System.out.println("Покупатель создан "
+						+ customers.get(customers.size() - 1));
+			} catch (CustomerException e) {
+				System.out
+						.println("!!!Покупатель не был создан : отрицательный баланс");
+			}
+			
+		}
+		sc.close();
+	}
+
+	/**
+	 * @throws FileNotFoundException
+	 */
+	private static void createStones() throws FileNotFoundException {
+		stones = new ArrayList<Stone>();
+
+		System.out.println("Cчитываем камни из файла Stones.txt");
+		Scanner sc = new Scanner(new File("Stones.txt"));
+		while (sc.hasNext()) {
+
+			String q = sc.next();
+			double p = Double.parseDouble(q);
+			double w = sc.nextDouble();
+			Valuation t = Valuation.valueOf(sc.next());
+			String s = sc.next();
+			try {
+				if (Strength.isCheck(s)) {
+					stones.add(new Gem(p, w, t, Strength.valueOf(s)));
+					System.out.println("+++Считан камень"
+							+ stones.get(stones.size() - 1));
+				} else if (Rarity.isCheck(s)) {
+					stones.add(new Semiprecious(p, w, t, Rarity.valueOf(s)));
+					System.out.println("+++Считан камень"
+							+ stones.get(stones.size() - 1));
+				} else {
+					System.out.println("!!!Не удалось считать камень " + " "
+							+ p + " " + w + " " + t + " " + s);
+				}
+			} catch (StoneException e) {
+				System.out.println("!!!Камень " + " " + p + " " + w + " " + t
+						+ " " + s + " не считан: отрицательные параметры");
+			}
+
+		}
+		sc.close();
+	}
+
+}
